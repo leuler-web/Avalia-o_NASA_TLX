@@ -11,11 +11,13 @@
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: #0ea5e9;
       cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
       transition: background 0.15s ease-in-out;
     }
     input[type="range"]::-webkit-slider-thumb:hover {
@@ -23,27 +25,35 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen">
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen pb-20">
 
-  <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 print:hidden">
-    <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+  <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 print:hidden sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
-        <span class="text-2xl">📊</span>
+        <div class="bg-sky-600 text-white p-2 rounded-lg text-xl">📊</div>
         <div>
           <h1 class="text-xl font-bold tracking-tight">NASA-TLX Universal&trade;</h1>
           <p class="text-xs text-slate-400">Plataforma Independente de Avaliação de Carga de Trabalho</p>
         </div>
       </div>
-      <div class="bg-slate-800 border border-slate-700 px-3 py-1 rounded text-xs text-slate-300 font-mono">
-        v2.0 • Serverless Mode
-      </div>
+      <button onclick="gerarLaudoPDF()" class="hidden md:flex bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow transition-colors items-center gap-2 text-sm">
+        📄 Gerar Laudo PDF
+      </button>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 print:p-0">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       
-      <section class="lg:col-span-7 space-y-8 print:hidden">
+      <section class="lg:col-span-7 space-y-6 print:hidden">
+        
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-xl shadow-sm">
+          <h3 class="text-blue-800 font-bold text-lg mb-2">📊 Avaliação de Carga de Trabalho (NASA-TLX&copy;)</h3>
+          <p class="text-sm text-blue-900 mb-2 leading-relaxed">
+            Esta ferramenta utiliza o método <strong>NASA-TLX</strong> (<em>Task Load Index</em>), um protocolo validado internacionalmente para avaliar a percepção da carga de trabalho. O objetivo é compreender as exigências mentais, físicas e temporais da sua atividade, ajudando a identificar fatores de desgaste e futuras melhorias ergonômicas.
+          </p>
+          <small class="text-blue-700 font-medium">⏱️ Tempo estimado: 3 a 5 minutos. As suas respostas são confidenciais.</small>
+        </div>
         
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
@@ -53,19 +63,19 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Empresa / Instituição</label>
-              <input type="text" id="meta-empresa" placeholder="Ex: UEA" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
+              <input type="text" id="meta-empresa" placeholder="Ex: UEA" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 transition-all">
             </div>
             <div>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Atividade / Tarefa Avaliada</label>
-              <input type="text" id="meta-atividade" placeholder="Ex: Análise de Dados" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Atividade / Tarefa</label>
+              <input type="text" id="meta-atividade" placeholder="Ex: Análise de Dados" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 transition-all">
             </div>
             <div>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Avaliador Responsável</label>
-              <input type="text" id="meta-avaliador" placeholder="Nome do pesquisador" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
+              <input type="text" id="meta-avaliador" placeholder="Nome do pesquisador" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 transition-all">
             </div>
             <div>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Data da Aplicação</label>
-              <input type="date" id="meta-data" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 focus:bg-white transition-all">
+              <input type="date" id="meta-data" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 transition-all">
             </div>
           </div>
         </div>
@@ -76,47 +86,43 @@
             <h2 class="text-lg font-semibold text-slate-900">Atribuição de Notas Brutas (0 a 100)</h2>
           </div>
           <p class="text-xs text-slate-500 mb-6">Mova os controles abaixo para quantificar a percepção do trabalhador em cada fator.</p>
-          
-          <div class="space-y-6" id="sliders-container">
-            </div>
+          <div class="space-y-6" id="sliders-container"></div>
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <div class="flex items-center gap-2 mb-2 border-b border-slate-100 pb-3">
             <span class="text-lg text-sky-600 font-bold">03.</span>
-            <h2 class="text-lg font-semibold text-slate-900">Balança de Pesos (Comparação Par-a-Par)</h2>
+            <h2 class="text-lg font-semibold text-slate-900">Balança de Pesos (15 Pares)</h2>
           </div>
-          <p class="text-xs text-slate-500 mb-6">Selecione, para cada um dos 15 pares, qual fator representou a maior fonte de carga de trabalho na tarefa.</p>
-          
-          <div class="space-y-3" id="pairs-container">
-            </div>
+          <p class="text-xs text-slate-500 mb-6">Selecione, para cada um dos 15 pares, qual fator representou a <strong>maior fonte de carga de trabalho</strong> na tarefa.</p>
+          <div class="space-y-3" id="pairs-container"></div>
         </div>
 
       </section>
 
-      <section class="lg:col-span-5 lg:sticky lg:top-6 space-y-6">
+      <section class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
         
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-xl shadow-md border border-slate-700 text-center relative overflow-hidden">
-          <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl select-none">🧠</div>
           <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400">Score Global NASA-TLX</h2>
-          <div class="mt-4 flex items-baseline justify-center gap-2">
-            <span class="text-6xl font-black tracking-tight text-sky-400 transition-all duration-300" id="live-score">50.00</span>
+          <div class="mt-2 flex items-baseline justify-center gap-2">
+            <span class="text-6xl font-black tracking-tight text-sky-400 transition-all duration-300" id="live-score">0.00</span>
             <span class="text-sm text-slate-400">/ 100</span>
           </div>
-          <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto">Média ponderada baseada no cruzamento de notas e pesos das 15 combinações.</p>
+          
+          <img src="https://drive.google.com/thumbnail?id=1d7eZkhLztSqGgq0F15vgrz3sDEuQtxwh&sz=w800" class="mt-5 w-full rounded-lg shadow-sm border border-slate-600 bg-white" alt="Escala NASA-TLX" onerror="this.style.display='none'">
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h3 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
-            <span>📊</span> Distribuição da Carga Ponderada
+            <span>📊</span> Carga Ponderada
           </h3>
-          <div class="relative w-full h-64">
+          <div class="relative w-full h-48">
             <canvas id="live-chart"></canvas>
           </div>
         </div>
 
-        <button onclick="gerarLaudoPDF()" class="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 text-lg">
-          <span>📄</span> Gerar Laudo Técnico PDF
+        <button onclick="gerarLaudoPDF()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 text-lg">
+          📄 Gerar Laudo Técnico PDF
         </button>
 
       </section>
@@ -125,42 +131,31 @@
   </main>
 
   <script>
-    // Definição das Dimensões do NASA-TLX
+    // Textos Oficiais que havíamos refinado
     const dimensoes = {
-      mental: { nome: 'Demanda Mental', emoji: '🧠', desc: 'Atividade mental e perceptiva (pensar, decidir, calcular). A tarefa foi fácil ou complexa?' },
-      fisica: { nome: 'Demanda Física', emoji: '🏋️', desc: 'Atividade física necessária (empurrar, puxar, controlar). A tarefa foi leve ou extenuante?' },
-      temporal: { nome: 'Demanda Temporal', emoji: '⏳', desc: 'Pressão de tempo sentida devido ao ritmo da tarefa ou ao cliente esperando.' },
-      desempenho: { nome: 'Performance', emoji: '🎯', desc: 'Nível de sucesso atingido na tarefa. O quão satisfeito ficou com o resultado?', labels: ['🏆 Sucesso', '❌ Fracasso'] },
-      esforco: { nome: 'Esforço', emoji: '💪', desc: 'O quão duro teve de trabalhar (mental e fisicamente) para alcançar o desempenho.' },
-      frustracao: { nome: 'Frustração', emoji: '😤', desc: 'Sentimento de insegurança, desencorajamento, irritação ou estresse na tarefa.' }
+      mental: { nome: 'Demanda Mental', emoji: '🧠', desc: 'Quanta atividade mental e perceptiva foi necessária (ex: pensar, decidir, calcular)? A tarefa foi fácil ou complexa?' },
+      fisica: { nome: 'Demanda Física', emoji: '🏋️', desc: 'Quanta atividade física foi necessária (ex: empurrar, puxar, controlar)? A tarefa foi leve ou extenuante?' },
+      temporal: { nome: 'Demanda Temporal', emoji: '⏳', desc: 'Quanta pressão de tempo você sentiu devido ao ritmo da tarefa ou ao cliente esperando?' },
+      desempenho: { nome: 'Performance', emoji: '🎯', desc: 'O quão bem-sucedido você acha que foi? Você está satisfeito com seu resultado?', labels: ['❌ Fracasso', '🏆 Sucesso'] },
+      esforco: { nome: 'Esforço', emoji: '💪', desc: 'O quão duro você teve que trabalhar (mental e fisicamente) para alcançar o seu nível de desempenho?' },
+      frustracao: { nome: 'Frustração', emoji: '😤', desc: 'O quão inseguro, desencorajado, irritado ou estressado você se sentiu durante a tarefa?' }
     };
 
-    // Lista exata das 15 comparações par-a-par da metodologia oficial
     const paresOficiais = [
-      { id: 1, k1: 'esforco', k2: 'desempenho' },
-      { id: 2, k1: 'frustracao', k2: 'mental' },
-      { id: 3, k1: 'mental', k2: 'temporal' },
-      { id: 4, k1: 'desempenho', k2: 'mental' },
-      { id: 5, k1: 'mental', k2: 'esforco' },
-      { id: 6, k1: 'mental', k2: 'fisica' },
-      { id: 7, k1: 'esforco', k2: 'fisica' },
-      { id: 8, k1: 'temporal', k2: 'frustracao' },
-      { id: 9, k1: 'desempenho', k2: 'frustracao' },
-      { id: 10, k1: 'temporal', k2: 'fisica' },
-      { id: 11, k1: 'temporal', k2: 'esforco' },
-      { id: 12, k1: 'desempenho', k2: 'temporal' },
-      { id: 13, k1: 'fisica', k2: 'frustracao' },
-      { id: 14, k1: 'fisica', k2: 'desempenho' },
+      { id: 1, k1: 'esforco', k2: 'desempenho' }, { id: 2, k1: 'frustracao', k2: 'mental' },
+      { id: 3, k1: 'mental', k2: 'temporal' }, { id: 4, k1: 'desempenho', k2: 'mental' },
+      { id: 5, k1: 'mental', k2: 'esforco' }, { id: 6, k1: 'mental', k2: 'fisica' },
+      { id: 7, k1: 'esforco', k2: 'fisica' }, { id: 8, k1: 'temporal', k2: 'frustracao' },
+      { id: 9, k1: 'desempenho', k2: 'frustracao' }, { id: 10, k1: 'temporal', k2: 'fisica' },
+      { id: 11, k1: 'temporal', k2: 'esforco' }, { id: 12, k1: 'desempenho', k2: 'temporal' },
+      { id: 13, k1: 'fisica', k2: 'frustracao' }, { id: 14, k1: 'fisica', k2: 'desempenho' },
       { id: 15, k1: 'esforco', k2: 'frustracao' }
     ];
 
     let chartInstance = null;
 
-    // Inicialização e Renderização Dinâmica da Tela
     window.addEventListener('DOMContentLoaded', () => {
-      // Definir data padrão de hoje
       document.getElementById('meta-data').value = new Date().toISOString().split('T')[0];
-      
       renderizarSliders();
       renderizarPares();
       inicializarGrafico();
@@ -171,8 +166,8 @@
       const container = document.getElementById('sliders-container');
       Object.keys(dimensoes).forEach(key => {
         const d = dimensoes[key];
-        const lowLabel = d.labels ? d.labels[0] : 'Muito Baixo';
-        const highLabel = d.labels ? d.labels[1] : 'Muito Alto';
+        const lowLabel = d.labels ? d.labels[0] : 'Muito Baixa';
+        const highLabel = d.labels ? d.labels[1] : 'Muito Alta';
         
         container.innerHTML += `
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
@@ -180,11 +175,10 @@
               <span class="font-bold text-slate-800 flex items-center gap-1.5">${d.emoji} ${d.nome}</span>
               <span class="text-sm font-mono font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded" id="label-nota-${key}">50%</span>
             </div>
-            <p class="text-xs text-slate-600 mb-3 leading-relaxed">${d.desc}</p>
-            <input type="range" id="slider-${key}" min="0" max="100" step="5" value="50" oninput="atualizarNota('${key}', this.value)" class="w-full accent-sky-600 bg-slate-200 h-2 rounded-lg cursor-pointer appearance-none">
+            <p class="text-xs text-slate-600 mb-3">${d.desc}</p>
+            <input type="range" id="slider-${key}" min="0" max="100" step="5" value="50" oninput="atualizarNota('${key}', this.value)" class="w-full accent-sky-600 bg-slate-300 h-2 rounded-lg cursor-pointer appearance-none">
             <div class="flex justify-between text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">
-              <span>${lowLabel}</span>
-              <span>${highLabel}</span>
+              <span>${lowLabel}</span><span>${highLabel}</span>
             </div>
           </div>
         `;
@@ -193,17 +187,17 @@
 
     function renderizarPares() {
       const container = document.getElementById('pairs-container');
-      paresOficiais.forEach((par) => {
+      paresOficiais.forEach((par, idx) => {
         const d1 = dimensoes[par.k1];
         const d2 = dimensoes[par.k2];
         
         container.innerHTML += `
           <div class="grid grid-cols-2 gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200 items-center">
-            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50">
-              <input type="radio" name="par-${par.id}" value="${par.k1}" onchange="calcularTudo()" required class="accent-sky-600 w-4 h-4">
+            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
+              <input type="radio" name="par-${par.id}" value="${par.k1}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4">
               <span class="text-xs font-semibold text-slate-700 truncate">${d1.emoji} ${d1.nome}</span>
             </label>
-            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50">
+            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
               <input type="radio" name="par-${par.id}" value="${par.k2}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4">
               <span class="text-xs font-semibold text-slate-700 truncate">${d2.emoji} ${d2.nome}</span>
             </label>
@@ -217,38 +211,26 @@
       calcularTudo();
     }
 
-    // Processamento dos Cálculos do Modelo NASA-TLX
     function calcularTudo() {
-      // 1. Coletar Notas
       const notas = {};
-      Object.keys(dimensoes).forEach(key => {
-        notas[key] = parseFloat(document.getElementById(`slider-${key}`).value);
-      });
+      Object.keys(dimensoes).forEach(key => notas[key] = parseFloat(document.getElementById(`slider-${key}`).value));
 
-      // 2. Coletar Pesos (Contagem / Tally)
       const pesos = { mental: 0, fisica: 0, temporal: 0, desempenho: 0, esforco: 0, frustracao: 0 };
       paresOficiais.forEach(par => {
         const selecionado = document.querySelector(`input[name="par-${par.id}"]:checked`);
-        if (selecionado) {
-          pesos[selecionado.value]++;
-        }
+        if (selecionado) pesos[selecionado.value]++;
       });
 
-      // 3. Calcular Carga Ponderada e Score Global
       let somaPonderada = 0;
       const cargasPonderadas = {};
-      
       Object.keys(dimensoes).forEach(key => {
         cargasPonderadas[key] = notas[key] * pesos[key];
         somaPonderada += cargasPonderadas[key];
       });
 
       const scoreGlobal = somaPonderada / 15;
-
-      // Atualizar UI Viva
       document.getElementById('live-score').innerText = scoreGlobal.toFixed(2);
       
-      // Atualizar Gráfico Dinamicamente
       if (chartInstance) {
         chartInstance.data.datasets[0].data = Object.keys(dimensoes).map(key => cargasPonderadas[key]);
         chartInstance.update();
@@ -264,170 +246,110 @@
         data: {
           labels: Object.keys(dimensoes).map(key => dimensoes[key].nome),
           datasets: [{
-            label: 'Carga Ponderada (Nota × Peso)',
             data: [0, 0, 0, 0, 0, 0],
-            backgroundColor: [
-              'rgba(14, 165, 233, 0.75)',
-              'rgba(139, 92, 246, 0.75)',
-              'rgba(245, 158, 11, 0.75)',
-              'rgba(16, 185, 129, 0.75)',
-              'rgba(239, 68, 68, 0.75)',
-              'rgba(236, 72, 153, 0.75)'
-            ],
-            borderColor: [
-              '#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981', '#ef6868', '#ec4899'
-            ],
-            borderWidth: 1.5,
+            backgroundColor: ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981', '#ef6868', '#ec4899'],
             borderRadius: 4
           }]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, max: 1500, grid: { color: '#f1f5f9' } },
-            x: { grid: { display: false } }
-          }
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 1500 } } }
       });
     }
 
-    // GERAÇÃO DO LAUDO TÉCNICO FORMATADO (A4 PRINT ENGINE)
     function gerarLaudoPDF() {
+      // VALIDAÇÃO: Bloqueia se o trabalhador não respondeu todas as 15 comparações!
+      const respondidos = document.querySelectorAll('input[type="radio"]:checked').length;
+      if (respondidos < 15) {
+        alert("⚠️ ATENÇÃO: Por favor, selecione uma opção em todas as 15 comparações da Balança de Pesos antes de gerar o laudo.");
+        return;
+      }
+
       const dados = calcularTudo();
-      
-      // Capturar dados cadastrais
       const empresa = document.getElementById('meta-empresa').value || 'Não informada';
       const atividade = document.getElementById('meta-atividade').value || 'Não informada';
       const avaliador = document.getElementById('meta-avaliador').value || 'Não informado';
       const dataBruta = document.getElementById('meta-data').value;
       const dataFormatada = dataBruta ? dataBruta.split('-').reverse().join('/') : '--/--/----';
 
-      // Criar a string HTML estruturada com Tailwind embutido para impressão
       let printHTML = `
         <!DOCTYPE html>
         <html lang="pt-BR">
         <head>
           <meta charset="UTF-8">
-          <title>Laudo Técnico Ergonômico - NASA-TLX</title>
-          <script src="https://cdn.tailwindcss.com"></script>
-          <style>
-            @media print {
-              body { background-color: #fff; color: #000; }
-              .print\\:hidden { display: none !important; }
-            }
-          </style>
+          <title>Laudo Técnico - NASA-TLX</title>
+          <script src="https://cdn.tailwindcss.com"><\/script>
+          <style>@media print { body { background-color: #fff; } .no-print { display: none !important; } }</style>
         </head>
-        <body class="bg-slate-50 p-8 font-sans text-slate-900">
+        <body class="bg-slate-50 font-sans text-slate-900">
           
-          <div class="max-w-4xl mx-auto bg-amber-50 border-l-4 border-amber-500 text-amber-900 p-4 mb-8 rounded-r-xl shadow-sm print:hidden">
-            <div class="flex items-center gap-2 font-bold mb-1">
-              <span>🖨️</span> Diretrizes de Exportação PDF:
-            </div>
-            <p class="text-sm">
-              No menu de impressão lateral que se abriu, configure o campo <b>Destino</b> para <b>"Salvar como PDF"</b>. Ative a opção <b>"Gráficos de plano de fundo"</b> nas configurações avançadas para garantir a renderização das cores e tabelas do laudo técnico.
-            </p>
+          <div class="no-print text-center py-4 bg-slate-800 w-full mb-8 shadow-lg">
+            <p class="text-white mb-2 text-sm">No menu de impressão, altere o "Destino" para <strong>"Salvar como PDF"</strong> e ative <strong>"Gráficos de plano de fundo"</strong>.</p>
+            <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors">🖨️ Salvar PDF</button>
+            <button onclick="window.close()" class="ml-4 text-slate-300 hover:text-white underline text-sm">Fechar</button>
           </div>
 
-          <div class="max-w-4xl mx-auto bg-white p-10 border border-slate-300 rounded-lg shadow-sm min-h-[297mm] flex flex-col justify-between">
-            
-            <div>
-              <div class="flex justify-between items-center border-b-2 border-slate-900 pb-4 mb-6">
-                <div>
-                  <h1 class="text-2xl font-black uppercase tracking-wider text-slate-900">Laudo de Carga de Trabalho</h1>
-                  <p class="text-sm text-slate-500 font-medium">Protocolo Científico Task Load Index (NASA-TLX™)</p>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs bg-slate-900 text-white px-3 py-1 font-mono rounded font-bold">REPORTE OFICIAL</span>
-                </div>
+          <div class="max-w-4xl mx-auto bg-white p-10 border border-slate-300 rounded-lg shadow-sm">
+            <div class="flex justify-between items-center border-b-2 border-slate-900 pb-4 mb-6">
+              <div>
+                <h1 class="text-2xl font-black uppercase tracking-wider text-slate-900">Laudo de Carga de Trabalho</h1>
+                <p class="text-sm text-slate-500 font-medium">Protocolo Científico Task Load Index (NASA-TLX™)</p>
               </div>
-
-              <div class="grid grid-cols-2 gap-x-6 gap-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 text-sm">
-                <div><span class="font-bold text-slate-500 text-xs uppercase block">Empresa / Instituição</span> <p class="text-slate-900 font-medium">${empresa}</p></div>
-                <div><span class="font-bold text-slate-500 text-xs uppercase block">Tarefa / Posto Avaliado</span> <p class="text-slate-900 font-medium">${atividade}</p></div>
-                <div><span class="font-bold text-slate-500 text-xs uppercase block">Avaliador Responsável</span> <p class="text-slate-900 font-medium">${avaliador}</p></div>
-                <div><span class="font-bold text-slate-500 text-xs uppercase block">Data da Emissão</span> <p class="text-slate-900 font-medium">${dataFormatada}</p></div>
+              <div class="text-right">
+                <span class="text-xs bg-slate-900 text-white px-3 py-1 font-mono rounded font-bold">ISO 10075</span>
               </div>
+            </div>
 
-              <div class="bg-slate-950 text-white p-6 rounded-xl text-center mb-8 border border-slate-800">
-                <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Índice de Carga de Trabalho Global (WWL)</span>
-                <div class="text-5xl font-black text-sky-400 mt-1">${dados.scoreGlobal.toFixed(2)} <span class="text-lg text-slate-500 font-normal">/ 100</span></div>
-                <p class="text-xs text-slate-400 mt-2 max-w-lg mx-auto italic">
-                  Este índice representa a magnitude da demanda integrada experimentada pelo operador, calibrada pelos pesos de relevância de cada dimensão estrutural.
-                </p>
-              </div>
+            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 text-sm">
+              <div><span class="font-bold text-slate-500 text-xs uppercase block">Empresa / Instituição</span> <p class="text-slate-900 font-medium">${empresa}</p></div>
+              <div><span class="font-bold text-slate-500 text-xs uppercase block">Tarefa / Posto Avaliado</span> <p class="text-slate-900 font-medium">${atividade}</p></div>
+              <div><span class="font-bold text-slate-500 text-xs uppercase block">Avaliador Responsável</span> <p class="text-slate-900 font-medium">${avaliador}</p></div>
+              <div><span class="font-bold text-slate-500 text-xs uppercase block">Data da Emissão</span> <p class="text-slate-900 font-medium">${dataFormatada}</p></div>
+            </div>
 
-              <h2 class="text-md font-bold text-slate-900 mb-3 uppercase tracking-wider">Detalhamento Vetorial das Dimensões</h2>
-              <table class="w-full text-left border-collapse border border-slate-200 rounded-lg overflow-hidden mb-8 text-sm">
-                <thead>
-                  <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
-                    <th class="p-3">Dimensão Avaliada</th>
-                    <th class="p-3 text-center">Nota Bruta (0-100)</th>
-                    <th class="p-3 text-center">Peso Atribuído (0-5)</th>
-                    <th class="p-3 text-center">Carga Ponderada</th>
-                    <th class="p-3 text-center">Impacto Relativo</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
+            <div class="bg-slate-950 text-white p-6 rounded-xl text-center mb-6 border border-slate-800">
+              <span class="text-xs uppercase font-bold tracking-widest text-slate-400">Índice de Carga de Trabalho Global (WWL)</span>
+              <div class="text-5xl font-black text-sky-400 mt-1">${dados.scoreGlobal.toFixed(2)} <span class="text-lg text-slate-500 font-normal">/ 100</span></div>
+            </div>
+
+            <div class="text-center mb-8">
+              <img src="https://drive.google.com/thumbnail?id=1d7eZkhLztSqGgq0F15vgrz3sDEuQtxwh&sz=w800" class="mx-auto w-full max-w-2xl border border-slate-200 rounded-lg" alt="Escala">
+            </div>
+
+            <h2 class="text-md font-bold text-slate-900 mb-3 uppercase tracking-wider">Detalhamento Vetorial</h2>
+            <table class="w-full text-left border-collapse border border-slate-200 rounded-lg overflow-hidden mb-8 text-sm">
+              <thead class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                <tr><th class="p-3">Dimensão</th><th class="p-3 text-center">Nota</th><th class="p-3 text-center">Peso</th><th class="p-3 text-center">Carga Ponderada</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
       `;
 
-      // Preencher linhas da tabela dinamicamente
       Object.keys(dimensoes).forEach(key => {
         const d = dimensoes[key];
-        const n = dados.notas[key];
-        const p = dados.pesos[key];
-        const cp = dados.cargasPonderadas[key];
-        const impacto = ((cp / 1500) * 100).toFixed(1) + '%';
-
         printHTML += `
-          <tr class="hover:bg-slate-50 transition-colors">
+          <tr class="hover:bg-slate-50">
             <td class="p-3 font-semibold text-slate-800">${d.emoji} ${d.nome}</td>
-            <td class="p-3 text-center font-mono">${n}</td>
-            <td class="p-3 text-center font-mono font-bold">${p}</td>
-            <td class="p-3 text-center font-mono text-slate-600">${cp}</td>
-            <td class="p-3 text-center font-mono font-bold text-sky-600 bg-sky-50/50">${impacto}</td>
+            <td class="p-3 text-center font-mono">${dados.notas[key]}</td>
+            <td class="p-3 text-center font-mono font-bold">${dados.pesos[key]}</td>
+            <td class="p-3 text-center font-mono font-bold text-sky-600">${dados.cargasPonderadas[key]}</td>
           </tr>
         `;
       });
 
-      // Fechamento da Tabela e Espaço de Assinatura
       printHTML += `
-                </tbody>
-              </table>
-              
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-600 leading-relaxed mb-6">
-                <strong>Nota Metodológica:</strong> O Score Global NASA-TLX é extraído através da média ponderada vetorial:
-                <div class="text-center font-mono font-bold text-slate-800 my-2 text-sm">Score = Σ (Nota Bruta × Peso Atribuído) / 15</div>
-                Onde o peso representa a frequência com que o fator foi selecionado como dominante na matriz de intersecção par-a-par.
-              </div>
+              </tbody>
+            </table>
 
+            <div class="mt-16 pt-8 text-center">
+              <div class="w-72 mx-auto border-b border-slate-800 mb-2"></div>
+              <p class="font-bold text-slate-800">${avaliador}</p>
+              <p class="text-sm text-slate-500">Ergonomista / Especialista em SSO</p>
             </div>
-
-            <div class="border-t border-slate-200 pt-8 mt-12 grid grid-cols-2 gap-6 items-end">
-              <div class="text-xs text-slate-400 font-mono">
-                Emitido via Sistema Independente NASA-TLX Universal.<br>
-                Protocolo em total conformidade com a ISO 10075.
-              </div>
-              <div class="text-center">
-                <div class="border-b border-slate-400 w-full mx-auto mb-1 h-8"></div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">Assinatura do Avaliador / Responsável</span>
-                <span class="text-[10px] text-slate-400 font-medium block">Pesquisa de Carga de Trabalho Ergonômica</span>
-              </div>
-            </div>
-
           </div>
           
-          <script>
-            setTimeout(() => {
-              window.print();
-            }, 1000);
-          <\/script>
+          <script>setTimeout(() => { window.print(); }, 1500);<\/script>
         </body>
         </html>
       `;
 
-      // Abrir nova aba injetando o código HTML de forma limpa e nativa
       const novaAba = window.open('', '_blank');
       novaAba.document.open();
       novaAba.document.write(printHTML);
