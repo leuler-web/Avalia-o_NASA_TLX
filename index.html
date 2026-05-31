@@ -27,7 +27,6 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen pb-20">
 
-  <!-- Header -->
   <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 print:hidden sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
@@ -46,10 +45,8 @@
   <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 print:p-0">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       
-      <!-- COLUNA ESQUERDA: INPUTS -->
       <section class="lg:col-span-7 space-y-6 print:hidden">
         
-        <!-- Caixa Informativa -->
         <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-xl shadow-sm">
           <h3 class="text-blue-800 font-bold text-lg mb-2">📊 Avaliação de Carga de Trabalho (NASA-TLX&copy;)</h3>
           <p class="text-sm text-blue-900 mb-2 leading-relaxed">
@@ -58,7 +55,6 @@
           <small class="text-blue-700 font-medium">⏱️ Tempo estimado: 3 a 5 minutos. As suas respostas são confidenciais.</small>
         </div>
         
-        <!-- PASSO 1: DADOS CADASTRAIS ATUALIZADOS -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
             <span class="text-lg text-sky-600 font-bold">01.</span>
@@ -96,7 +92,6 @@
           </div>
         </div>
 
-        <!-- PASSO 2 -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <div class="flex items-center gap-2 mb-2 border-b border-slate-100 pb-3">
             <span class="text-lg text-sky-600 font-bold">02.</span>
@@ -106,7 +101,6 @@
           <div class="space-y-6" id="sliders-container"></div>
         </div>
 
-        <!-- PASSO 3 -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <div class="flex items-center gap-2 mb-2 border-b border-slate-100 pb-3">
             <span class="text-lg text-sky-600 font-bold">03.</span>
@@ -118,7 +112,6 @@
 
       </section>
 
-      <!-- COLUNA DIREITA: RESULTADOS -->
       <section class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
         
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-xl shadow-md border border-slate-700 text-center relative overflow-hidden">
@@ -140,7 +133,6 @@
           </div>
         </div>
 
-        <!-- Botão Principal de Gerar -->
         <button onclick="gerarLaudoPDF()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 text-lg">
           📄 Gerar Laudo Técnico PDF
         </button>
@@ -210,15 +202,16 @@
         const d1 = dimensoes[par.k1];
         const d2 = dimensoes[par.k2];
         
+        // CÓDIGO ATUALIZADO: Remoção do "truncate", adição de "whitespace-normal" e "shrink-0" no input
         container.innerHTML += `
-          <div class="grid grid-cols-2 gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200 items-center">
-            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
-              <input type="radio" name="par-${par.id}" value="${par.k1}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4">
-              <span class="text-xs font-semibold text-slate-700 truncate">${d1.emoji} ${d1.nome}</span>
+          <div class="grid grid-cols-2 gap-2 sm:gap-3 bg-slate-50 p-2 sm:p-2.5 rounded-lg border border-slate-200 items-center">
+            <label class="flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
+              <input type="radio" name="par-${par.id}" value="${par.k1}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4 shrink-0">
+              <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight whitespace-normal break-words">${d1.emoji} ${d1.nome}</span>
             </label>
-            <label class="flex items-center gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
-              <input type="radio" name="par-${par.id}" value="${par.k2}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4">
-              <span class="text-xs font-semibold text-slate-700 truncate">${d2.emoji} ${d2.nome}</span>
+            <label class="flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-sky-50 border border-slate-300 rounded-lg p-2 cursor-pointer transition-all has-[:checked]:border-sky-500 has-[:checked]:bg-sky-50 has-[:checked]:shadow-sm">
+              <input type="radio" name="par-${par.id}" value="${par.k2}" onchange="calcularTudo()" class="accent-sky-600 w-4 h-4 shrink-0">
+              <span class="text-[11px] sm:text-xs font-semibold text-slate-700 leading-tight whitespace-normal break-words">${d2.emoji} ${d2.nome}</span>
             </label>
           </div>
         `;
@@ -275,7 +268,6 @@
     }
 
     function gerarLaudoPDF() {
-      // VALIDAÇÃO: Bloqueia se o trabalhador não respondeu todas as 15 comparações!
       const respondidos = document.querySelectorAll('input[type="radio"]:checked').length;
       if (respondidos < 15) {
         alert("⚠️ ATENÇÃO: Por favor, selecione uma opção em todas as 15 comparações da Balança de Pesos antes de gerar o laudo.");
@@ -284,7 +276,6 @@
 
       const dados = calcularTudo();
       
-      // Coletando os novos dados inseridos
       const trabalhador = document.getElementById('meta-trabalhador').value || 'Não informado';
       const empresa = document.getElementById('meta-empresa').value || 'Não informada';
       const setor = document.getElementById('meta-setor').value || 'Não informado';
@@ -323,7 +314,6 @@
               </div>
             </div>
 
-            <!-- Tabela de Dados no PDF expandida -->
             <div class="grid grid-cols-2 gap-x-6 gap-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 text-sm">
               <div><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider block mb-1">Trabalhador Avaliado</span> <p class="text-slate-900 font-medium">${trabalhador}</p></div>
               <div><span class="font-bold text-slate-500 text-[10px] uppercase tracking-wider block mb-1">Empresa</span> <p class="text-slate-900 font-medium">${empresa}</p></div>
